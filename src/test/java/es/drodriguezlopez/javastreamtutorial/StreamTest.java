@@ -11,23 +11,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class StreamTest {
 
-
-    @Test
-    public void testAnyMatch() {
-        Stream<Integer> ns = Stream.of(1, 2, 3, 1, 4, 5);
-        assertTrue(ns.anyMatch(n -> n.equals(1)));
-        ns = Stream.of(1, 2, 3, 1, 4, 5);
-        assertFalse(ns.anyMatch(n -> n.equals(6)));
-    }
-
-    @Test
-    public void testAllMatch() {
-        Stream<Integer> ns = Stream.of(1, 2, 3, 1, 4, 5);
-        assertFalse(ns.allMatch(n -> n.equals(1)));
-        ns = Stream.of(1, 1, 1);
-        assertTrue(ns.allMatch(n -> n.equals(1)));
-    }
-
     @Test
     public void testCollectList() {
         Stream<Integer> ns = Stream.of(1, 2, 3, 1, 4, 5);
@@ -49,7 +32,6 @@ class StreamTest {
         Double average = ns.collect(Collectors.averagingDouble(Double::parseDouble));
         assertEquals(2, average);
     }
-
 
     @Test
     public void testCollectAveragingInt() {
@@ -92,23 +74,6 @@ class StreamTest {
         assertNotNull(d);
         assertEquals(3, d.count());
     }
-
-    @Test
-    public void testDropWhile() {
-        Stream<Integer> ns = Stream.of(1, 2, 3);
-        Stream<Integer> d = ns.dropWhile(n -> n.equals(1));
-        assertNotNull(d);
-        assertEquals(2, d.count());
-    }
-
-    @Test
-    public void testFilter() {
-        Stream<Integer> ns = Stream.of(1, 2, 3);
-        Stream<Integer> d = ns.filter(n -> n.equals(2));
-        assertNotNull(d);
-        assertEquals(1, d.count());
-    }
-
 
     @Test
     public void testFindAny() {

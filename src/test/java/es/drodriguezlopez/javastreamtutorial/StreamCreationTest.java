@@ -2,12 +2,14 @@ package es.drodriguezlopez.javastreamtutorial;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Clase con ejemplos de creacion de strems
+ * Clase con tests de creacion de stream
  */
 class StreamCreationTest {
 
@@ -54,5 +56,19 @@ class StreamCreationTest {
         Stream<Integer> ns = Stream.empty();
         assertNotNull(ns);
         assertEquals(0L, ns.count());
+    }
+
+    /**
+     * Creacion de un stream mediante el metodo stream
+     * de las {@link java.util.Collection}
+     */
+    @Test
+    public void testCollectionStream() {
+        Stream<Integer> ns = List.of(1, 2, 3).stream();
+        assertNotNull(ns);
+        assertEquals(3L, ns.count());
+        ns = List.of(1).stream();
+        assertNotNull(ns);
+        assertEquals(1L, ns.count());
     }
 }
