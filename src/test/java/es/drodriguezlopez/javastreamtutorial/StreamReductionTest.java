@@ -21,8 +21,12 @@ public class StreamReductionTest {
      */
     @Test
     public void testCollectAveragingDouble() {
-        Stream<Employee> ns = createEmployees();
-        Double average = ns.collect(Collectors.averagingDouble(Employee::getHeight));
+        Stream<Employee> employees = createEmployees();
+        Double average = employees.collect(Collectors.averagingDouble(Employee::getHeight));
+        assertEquals(1.65, average);
+
+        employees = createEmployees();
+        average = employees.mapToDouble(Employee::getHeight).average().getAsDouble();
         assertEquals(1.65, average);
     }
 
@@ -32,8 +36,12 @@ public class StreamReductionTest {
      */
     @Test
     public void testCollectAveragingInt() {
-        Stream<Employee> ns = createEmployees();
-        Double average = ns.collect(Collectors.averagingInt(Employee::getAge));
+        Stream<Employee> employees = createEmployees();
+        Double average = employees.collect(Collectors.averagingInt(Employee::getAge));
+        assertEquals(32.5, average);
+
+        employees = createEmployees();
+        average = employees.mapToInt(Employee::getAge).average().getAsDouble();
         assertEquals(32.5, average);
     }
 
@@ -43,8 +51,12 @@ public class StreamReductionTest {
      */
     @Test
     public void testCollectAveragingLong() {
-        Stream<Employee> ns = createEmployees();
-        Double average = ns.collect(Collectors.averagingLong(Employee::getSalary));
+        Stream<Employee> employees = createEmployees();
+        Double average = employees.collect(Collectors.averagingLong(Employee::getSalary));
+        assertEquals(1750, average);
+
+        employees = createEmployees();
+        average = employees.mapToLong(Employee::getSalary).average().getAsDouble();
         assertEquals(1750, average);
     }
 
@@ -55,13 +67,21 @@ public class StreamReductionTest {
      */
     @Test
     public void testCollectSummarizingDouble() {
-        Stream<Employee> ns = createEmployees();
-        DoubleSummaryStatistics sum = ns.collect(Collectors.summarizingDouble(Employee::getHeight));
-        assertEquals(1.65, sum.getAverage());
-        assertEquals(4, sum.getCount());
-        assertEquals(1.8, sum.getMax());
-        assertEquals(1.5, sum.getMin());
-        assertEquals(6.6, sum.getSum());
+        Stream<Employee> employees = createEmployees();
+        DoubleSummaryStatistics statistics = employees.collect(Collectors.summarizingDouble(Employee::getHeight));
+        assertEquals(1.65, statistics.getAverage());
+        assertEquals(4, statistics.getCount());
+        assertEquals(1.8, statistics.getMax());
+        assertEquals(1.5, statistics.getMin());
+        assertEquals(6.6, statistics.getSum());
+
+        employees = createEmployees();
+        statistics = employees.mapToDouble(Employee::getHeight).summaryStatistics();
+        assertEquals(1.65, statistics.getAverage());
+        assertEquals(4, statistics.getCount());
+        assertEquals(1.8, statistics.getMax());
+        assertEquals(1.5, statistics.getMin());
+        assertEquals(6.6, statistics.getSum());
     }
 
     /**
@@ -71,13 +91,21 @@ public class StreamReductionTest {
      */
     @Test
     public void testCollectSummarizingInt() {
-        Stream<Employee> ns = createEmployees();
-        IntSummaryStatistics sum = ns.collect(Collectors.summarizingInt(Employee::getAge));
-        assertEquals(32.5, sum.getAverage());
-        assertEquals(4, sum.getCount());
-        assertEquals(40, sum.getMax());
-        assertEquals(20, sum.getMin());
-        assertEquals(130, sum.getSum());
+        Stream<Employee> employees = createEmployees();
+        IntSummaryStatistics statistics = employees.collect(Collectors.summarizingInt(Employee::getAge));
+        assertEquals(32.5, statistics.getAverage());
+        assertEquals(4, statistics.getCount());
+        assertEquals(40, statistics.getMax());
+        assertEquals(20, statistics.getMin());
+        assertEquals(130, statistics.getSum());
+
+        employees = createEmployees();
+        statistics = employees.mapToInt(Employee::getAge).summaryStatistics();
+        assertEquals(32.5, statistics.getAverage());
+        assertEquals(4, statistics.getCount());
+        assertEquals(40, statistics.getMax());
+        assertEquals(20, statistics.getMin());
+        assertEquals(130, statistics.getSum());
     }
 
     /**
@@ -87,13 +115,21 @@ public class StreamReductionTest {
      */
     @Test
     public void testCollectSummarizingLong() {
-        Stream<Employee> ns = createEmployees();
-        LongSummaryStatistics sum = ns.collect(Collectors.summarizingLong(Employee::getSalary));
-        assertEquals(1750, sum.getAverage());
-        assertEquals(4, sum.getCount());
-        assertEquals(2500, sum.getMax());
-        assertEquals(1000, sum.getMin());
-        assertEquals(7000, sum.getSum());
+        Stream<Employee> employees = createEmployees();
+        LongSummaryStatistics statistics = employees.collect(Collectors.summarizingLong(Employee::getSalary));
+        assertEquals(1750, statistics.getAverage());
+        assertEquals(4, statistics.getCount());
+        assertEquals(2500, statistics.getMax());
+        assertEquals(1000, statistics.getMin());
+        assertEquals(7000, statistics.getSum());
+
+        employees = createEmployees();
+        statistics = employees.mapToLong(Employee::getSalary).summaryStatistics();
+        assertEquals(1750, statistics.getAverage());
+        assertEquals(4, statistics.getCount());
+        assertEquals(2500, statistics.getMax());
+        assertEquals(1000, statistics.getMin());
+        assertEquals(7000, statistics.getSum());
     }
 
     /**
@@ -102,8 +138,16 @@ public class StreamReductionTest {
      */
     @Test
     public void testCollectSummingDouble() {
-        Stream<Employee> ns = createEmployees();
-        Double sum = ns.collect(Collectors.summingDouble(Employee::getHeight));
+        Stream<Employee> employees = createEmployees();
+        Double sum = employees.collect(Collectors.summingDouble(Employee::getHeight));
+        assertEquals(6.6, sum);
+
+        employees = createEmployees();
+        sum = employees.mapToDouble(Employee::getHeight).sum();
+        assertEquals(6.6, sum);
+
+        employees = createEmployees();
+        sum = employees.map(Employee::getHeight).reduce(0D, (a, b) -> a + b);
         assertEquals(6.6, sum);
     }
 
@@ -113,8 +157,16 @@ public class StreamReductionTest {
      */
     @Test
     public void testCollectSummingInt() {
-        Stream<Employee> ns = createEmployees();
-        Integer sum = ns.collect(Collectors.summingInt(Employee::getAge));
+        Stream<Employee> employees = createEmployees();
+        Integer sum = employees.collect(Collectors.summingInt(Employee::getAge));
+        assertEquals(130, sum);
+
+        employees = createEmployees();
+        sum = employees.mapToInt(Employee::getAge).sum();
+        assertEquals(130, sum);
+
+        employees = createEmployees();
+        sum = employees.map(Employee::getAge).reduce(0, (a, b) -> a + b);
         assertEquals(130, sum);
     }
 
@@ -124,8 +176,16 @@ public class StreamReductionTest {
      */
     @Test
     public void testCollectSummingLong() {
-        Stream<Employee> ns = createEmployees();
-        Long sum = ns.collect(Collectors.summingLong(Employee::getSalary));
+        Stream<Employee> employees = createEmployees();
+        Long sum = employees.collect(Collectors.summingLong(Employee::getSalary));
+        assertEquals(7000, sum);
+
+        employees = createEmployees();
+        sum = employees.mapToLong(Employee::getSalary).sum();
+        assertEquals(7000, sum);
+
+        employees = createEmployees();
+        sum = employees.map(Employee::getSalary).reduce(0L, (a, b) -> a + b);
         assertEquals(7000, sum);
     }
 
@@ -136,7 +196,7 @@ public class StreamReductionTest {
                 new Employee("Luis", 1.8, 40, 2500L));
     }
 
-    private class Employee {
+    class Employee {
         private String name;
         private Double height;
         private Integer age;
@@ -153,24 +213,12 @@ public class StreamReductionTest {
             return name;
         }
 
-        public void setName(String name) {
-            this.name = name;
-        }
-
         public Double getHeight() {
             return height;
         }
 
-        public void setHeight(Double height) {
-            this.height = height;
-        }
-
         public Integer getAge() {
             return age;
-        }
-
-        public void setAge(Integer age) {
-            this.age = age;
         }
 
         public Long getSalary() {
