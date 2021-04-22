@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class StreamPredicateTest {
 
     /**
-     * {@link Stream::allMatch} nos permite evaluar si todos
+     * stream::allMatch nos permite evaluar si todos
      * los elementos del stream coinciden con el predicado
      */
     @Test
@@ -26,7 +26,7 @@ public class StreamPredicateTest {
     }
 
     /**
-     * {@link Stream::anyMatch} nos permite evaluar si alguno
+     * stream::anyMatch nos permite evaluar si alguno
      * los elementos del stream coinciden con el predicado
      */
     @Test
@@ -38,7 +38,7 @@ public class StreamPredicateTest {
     }
 
     /**
-     * {@link Stream::dropWhile} descarta los primeros elementos
+     * stream::dropWhile descarta los primeros elementos
      * que coincidan con el predicado
      */
     @Test
@@ -54,7 +54,7 @@ public class StreamPredicateTest {
     }
 
     /**
-     * {@link Stream::filter} Selecciona aquellos elementos
+     * stream::filter selecciona aquellos elementos
      * que coincidan con el predicado
      */
     @Test
@@ -66,7 +66,7 @@ public class StreamPredicateTest {
     }
 
     /**
-     * {@link Stream::noneMatch} evalua si todos los elementos
+     * stream::noneMatch evalua si todos los elementos
      * del stream no coinciden con el predicado
      */
     @Test
@@ -78,7 +78,7 @@ public class StreamPredicateTest {
     }
 
     /**
-     * {@link Stream::takeWhile} selecciona los primeros elementos
+     * stream::takeWhile selecciona los primeros elementos
      * que coincidan con el predicado
      */
     @Test
