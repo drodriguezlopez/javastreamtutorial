@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import java.util.DoubleSummaryStatistics;
 import java.util.IntSummaryStatistics;
 import java.util.LongSummaryStatistics;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -189,6 +190,43 @@ public class StreamReductionTest {
         assertEquals(7000, sum);
     }
 
+    /**
+     * Agrupamos el stream por el campo nombre y contamos el resultado
+     */
+    @Test
+    public void testCollectGroupingByAndCount() {
+        Stream<Employee> employees = createEmployees();
+        Map<String, Long> groupByEmployee = employees.
+                collect(Collectors.groupingBy(Employee::getName, Collectors.counting()));
+        assertEquals(2, groupByEmployee.get("Luis"));
+    }
+
+    /**
+     * Agrupamos el stream por el campo nombre y sumamos el salario
+     */
+    @Test
+    public void testCollectGroupingByAndSumming() {
+        Stream<Employee> employees = createEmployees();
+        Map<String, Long> groupByEmployee = employees.
+                collect(Collectors.groupingBy(Employee::getName, Collectors.summingLong(Employee::getSalary)));
+        assertEquals(4500, groupByEmployee.get("Luis"));
+    }
+
+
+    @Test
+    public void testCollectGroupingByAndSumming2() {
+        Stream<Employee> employees = createEmployees();
+        SummarizingEmployee o = employees.parallel().collect(new EmployeeCollector());
+        System.out.println(o);
+    }
+
+    @Test
+    public void testCollectGroupingByAndSumming32() {
+        Stream<Employee> employees = createEmployees();
+        SummarizingEmployee o = employees.parallel().collect(EmployeeCollector.summarizing());
+        System.out.println(o);
+    }
+
     private Stream<Employee> createEmployees() {
         return Stream.of(new Employee("David", 1.5, 20, 1000L),
                 new Employee("Juan", 1.6, 30, 1500L),
@@ -196,37 +234,4 @@ public class StreamReductionTest {
                 new Employee("Luis", 1.8, 40, 2500L));
     }
 
-    class Employee {
-        private String name;
-        private Double height;
-        private Integer age;
-        private Long salary;
-
-        public Employee(String name, Double height, Integer age, Long salary) {
-            this.name = name;
-            this.height = height;
-            this.age = age;
-            this.salary = salary;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public Double getHeight() {
-            return height;
-        }
-
-        public Integer getAge() {
-            return age;
-        }
-
-        public Long getSalary() {
-            return salary;
-        }
-
-        public void setSalary(Long salary) {
-            this.salary = salary;
-        }
-    }
 }
