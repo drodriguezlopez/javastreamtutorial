@@ -217,14 +217,14 @@ public class StreamReductionTest {
     public void testCollectGroupingByAndSumming2() {
         Stream<Employee> employees = createEmployees();
         SummarizingEmployee o = employees.parallel().collect(new EmployeeCollector());
-        System.out.println(o);
+        assertEquals(1.65, o.getHeight().getAverage());
     }
 
     @Test
     public void testCollectGroupingByAndSumming32() {
         Stream<Employee> employees = createEmployees();
         SummarizingEmployee o = employees.parallel().collect(EmployeeCollector.summarizing());
-        System.out.println(o);
+        assertEquals(1.65, o.getHeight().getAverage());
     }
 
     private Stream<Employee> createEmployees() {
